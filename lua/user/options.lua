@@ -30,26 +30,5 @@ bo.tabstop = 2
 bo.ai = true
 bo.si = true
 
---set t_BE=
---filetype plugin indent on
---set path+=**
---set wildignore+=*/node_modules/*
---autocmd InsertLeave * set nopaste
-
-
---colorscheme onehalfdark
---let g:transparent_enabled = v:true
-
-local cmd = vim.cmd
-local u = require('utils')
-
-cmd('au InsertLeave * set nopaste')
-
-u.create_augroup({
-    { 'WinEnter', '*', 'set', 'cul' },
-    { 'WinLeave', '*', 'set', 'nocul' },
-}, 'BgHighlight')
-
-
-
-
+--o.path:append "**"
+--o.wildignore:append "*/node_modules/*"
