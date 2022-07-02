@@ -18,6 +18,7 @@ o.ru = false
 o.sm = false
 o.smarttab = true
 o.termguicolors = true
+o.mouse = "nv"
 
 wo.number = true
 wo.wrap = false

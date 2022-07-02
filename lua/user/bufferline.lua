@@ -36,10 +36,20 @@ local function custom_filter(buf, buf_nums)
 	return (tab_num == last_tab and is_log) or (tab_num ~= last_tab and not is_log)
 end
 
+local close_action = "bdelete! %d"
+local bufdel_ok, bufdel = pcall(require, "bufdelete")
+if not bufdel_ok then
+	vim.notify("no bufdelete installed, using " .. close_action)
+else
+	close_action = function(bufnum)
+		bufdel.bufdelete(bufnum, true)
+	end
+end
+
 bufferline.setup({
 	options = {
 		numbers = "none", -- can be "none" | "ordinal" | "buffer_id" | "both" | function
-		close_command = "bdelete! %d", -- can be a string | function, see "Mouse actions"
+		close_command = close_action, -- can be a string | function, see "Mouse actions"
 		right_mouse_command = "vert sbuffer %d", -- can be a string | function, see "Mouse actions"
 		left_mouse_command = "buffer %d", -- can be a string | function, see "Mouse actions"
 		middle_mouse_command = nil, -- can be a string | function, see "Mouse actions"

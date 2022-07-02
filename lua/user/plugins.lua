@@ -52,7 +52,7 @@ return packer.startup(function(use)
 	use("neovim/nvim-lspconfig") -- enable LSP
 	use("williamboman/nvim-lsp-installer") -- simple to use language server installer
 	-- formatter
-	use "PlatyPew/format-installer.nvim"
+	use("PlatyPew/format-installer.nvim")
 	use({
 		"jose-elias-alvarez/null-ls.nvim",
 		requires = "PlatyPew/format-installer.nvim",
@@ -81,6 +81,10 @@ return packer.startup(function(use)
 	use("mfussenegger/nvim-jdtls")
 	--colorizer
 	use("norcalli/nvim-colorizer.lua")
+	--cursor hold
+	use("antoinemadec/FixCursorHold.nvim")
+	--bufdel for bufferline
+	use("famiu/bufdelete.nvim")
 	if PACKER_BOOTSTRAP then
 		require("packer").sync()
 	end
