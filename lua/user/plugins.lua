@@ -85,6 +85,8 @@ return packer.startup(function(use)
 	use("antoinemadec/FixCursorHold.nvim")
 	--bufdel for bufferline
 	use("famiu/bufdelete.nvim")
+	--schema store
+	use("b0o/schemastore.nvim")
 	if PACKER_BOOTSTRAP then
 		require("packer").sync()
 	end

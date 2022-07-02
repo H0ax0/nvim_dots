@@ -35,5 +35,10 @@ for _, server in pairs(servers) do
 		opts = vim.tbl_deep_extend("force", pyright_opts, opts)
 	end
 
+	if server == "jsonls" then
+		local jsonls_opts = require("user.lsp.settings.jsonls")
+		opts = vim.tbl_deep_extend("force", jsonls_opts, opts)
+	end
+
 	lspconfig[server].setup(opts)
 end
