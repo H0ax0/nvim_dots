@@ -33,8 +33,8 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 	end,
 })
 --tree close
-vim.cmd("autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif")
-vim.cmd("au InsertLeave * set nopaste")
+--vim.cmd("autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif")
+--vim.cmd("au InsertLeave * set nopaste")
 
 --u.create_augroup({
 --    { 'WinEnter', '*', 'set', 'cul' },

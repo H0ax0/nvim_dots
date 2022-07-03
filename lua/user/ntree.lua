@@ -15,7 +15,7 @@ local tree_cb = nvim_tree_config.nvim_tree_callback
 nvim_tree.setup({
 	disable_netrw = true,
 	hijack_netrw = true,
-	open_on_setup = false,
+	open_on_setup = true,
 	open_on_setup_file = false,
 	sort_by = "name",
 	ignore_buffer_on_setup = false,
@@ -31,7 +31,7 @@ nvim_tree.setup({
 		auto_open = true,
 	},
 	open_on_tab = false,
-	hijack_cursor = false,
+	hijack_cursor = true,
 	update_cwd = false,
 	diagnostics = {
 		enable = true,
@@ -55,10 +55,10 @@ nvim_tree.setup({
 	git = {
 		enable = true,
 		ignore = false,
-		timeout = 200,
+		timeout = 300,
 	},
 	view = {
-		width = 30,
+		width = 25,
 		height = 30,
 		hide_root_folder = false,
 		side = "left",
@@ -92,12 +92,12 @@ nvim_tree.setup({
 				default = "",
 				symlink = "",
 				git = {
-					unstaged = "",
-					staged = "S",
+					unstaged = "✹",
+					staged = "✚",
 					unmerged = "",
 					renamed = "➜",
 					deleted = "",
-					untracked = "U",
+					untracked = "✭",
 					ignored = "◌",
 				},
 				folder = {

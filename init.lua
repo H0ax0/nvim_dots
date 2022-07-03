@@ -17,4 +17,5 @@ require("user.lualine")
 require("user.ntree")
 require("user.plugins")
 require("user.tabnine")
+require("user.gitsigns")
 --TODO: onehalf colors termilal setup

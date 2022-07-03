@@ -55,7 +55,7 @@ return packer.startup(function(use)
 	use("PlatyPew/format-installer.nvim")
 	use({
 		"jose-elias-alvarez/null-ls.nvim",
-		requires = "PlatyPew/format-installer.nvim",
+		requires = { "PlatyPew/format-installer.nvim", "lewis6991/gitsigns.nvim" },
 	})
 	--line
 	use("nvim-lualine/lualine.nvim")
@@ -89,6 +89,8 @@ return packer.startup(function(use)
 	use("b0o/schemastore.nvim")
 	--lualine lsp load progress
 	use("arkav/lualine-lsp-progress")
+	--gitsigns
+	use("lewis6991/gitsigns.nvim")
 	if PACKER_BOOTSTRAP then
 		require("packer").sync()
 	end

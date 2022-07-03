@@ -61,7 +61,7 @@ lualine.setup({
 		theme = "auto",
 		component_separators = { left = "", right = "" },
 		section_separators = { left = "", right = "" },
-		disabled_filetypes = { "alpha", "dashboard" },
+		disabled_filetypes = { "alpha", "dashboard", "Outline" },
 		always_divide_middle = true,
 	},
 	sections = {
@@ -72,4 +72,5 @@ lualine.setup({
 		lualine_y = { location },
 		lualine_z = { "progress" },
 	},
+	extensions = { "nvim-tree" },
 })
