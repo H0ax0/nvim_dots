@@ -33,7 +33,21 @@ for _, formatter in ipairs(formatter_install.get_installed_formatters()) do
 	if custom_configs[formatter.name] ~= nil then
 		config.extra_args = custom_configs[formatter.name].extra_args
 	end
-	table.insert(sources, null_ls.builtins.formatting[formatter.name].with(config))
+	for fmt, _ in pairs(require("null-ls.builtins._meta.formatting")) do
+		if fmt == formatter.name then
+			table.insert(sources, null_ls.builtins.formatting[formatter.name].with(config))
+		end
+	end
+	for diag, _ in pairs(require("null-ls.builtins._meta.diagnostics")) do
+		if diag == formatter.name then
+			table.insert(sources, null_ls.builtins.diagnostics[formatter.name].with(config))
+		end
+	end
+	for ca, _ in pairs(require("null-ls.builtins._meta.code_actions")) do
+		if ca == formatter.name then
+			table.insert(sources, null_ls.builtins.code_actions[formatter.name].with(config))
+		end
+	end
 end
 
 table.insert(sources, null_ls.builtins.code_actions.gitsigns)
@@ -48,7 +62,6 @@ null_ls.setup({
 				group = augroup,
 				buffer = bufnr,
 				callback = function()
-					-- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
 					vim.lsp.buf.formatting_sync()
 				end,
 			})

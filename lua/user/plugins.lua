@@ -55,7 +55,7 @@ return packer.startup(function(use)
 	use("PlatyPew/format-installer.nvim")
 	use({
 		"jose-elias-alvarez/null-ls.nvim",
-		requires = { "PlatyPew/format-installer.nvim", "lewis6991/gitsigns.nvim" },
+		requires = { "PlatyPew/format-installer.nvim" },
 	})
 	--line
 	use("nvim-lualine/lualine.nvim")
