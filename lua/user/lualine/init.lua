@@ -38,6 +38,22 @@ local spaces = function()
 	return "spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
 end
 
+local lsp_status_progress_ok, _ = pcall(require, "lualine.components.lsp_progress")
+local progress_lsp = {}
+if lsp_status_progress_ok then
+	progress_lsp = {
+		"lsp_progress",
+		separators = {
+			message = { pre = "", post = "" },
+		},
+		display_components = { "lsp_client_name", "spinner" },
+		timer = { progress_enddelay = 500, spinner = 1000, lsp_client_name_enddelay = 1000 },
+		spinner_symbols = { "🌑 ", "🌒 ", "🌓 ", "🌔 ", "🌕 ", "🌖 ", "🌗 ", "🌘 " },
+	}
+else
+	vim.notify("lualine progress component not found")
+end
+
 lualine.setup({
 	options = {
 		globalstatus = true,
@@ -52,7 +68,7 @@ lualine.setup({
 		lualine_a = { "mode" },
 		lualine_b = { "branch" },
 		lualine_c = { diagnostics },
-		lualine_x = { diff, spaces, "encoding", filetype },
+		lualine_x = { progress_lsp, diff, spaces, "encoding", filetype },
 		lualine_y = { location },
 		lualine_z = { "progress" },
 	},

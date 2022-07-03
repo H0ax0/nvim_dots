@@ -87,6 +87,8 @@ return packer.startup(function(use)
 	use("famiu/bufdelete.nvim")
 	--schema store
 	use("b0o/schemastore.nvim")
+	--lualine lsp load progress
+	use("arkav/lualine-lsp-progress")
 	if PACKER_BOOTSTRAP then
 		require("packer").sync()
 	end
