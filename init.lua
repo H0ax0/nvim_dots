@@ -1,4 +1,5 @@
 require("user.options")
+require("user.notify")
 
 require("user.autocommands")
 
@@ -6,6 +7,7 @@ require("user.treesitter")
 require("user.dap")
 require("user.lsp")
 
+require("user.telescope")
 require("user.autopairs")
 require("user.bufferline")
 require("user.cmp")
@@ -18,4 +20,7 @@ require("user.ntree")
 require("user.plugins")
 require("user.tabnine")
 require("user.gitsigns")
+require("user.norg")
+require("user.comment")
+require("user.fidget")
 --TODO: onehalf colors termilal setup

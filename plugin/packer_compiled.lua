@@ -249,6 +249,11 @@ _G.packer_plugins = {
     path = "/home/hoax/.local/share/nvim/site/pack/packer/start/schemastore.nvim",
     url = "https://github.com/b0o/schemastore.nvim"
   },
+  ["telescope.nvim"] = {
+    loaded = true,
+    path = "/home/hoax/.local/share/nvim/site/pack/packer/start/telescope.nvim",
+    url = "https://github.com/nvim-telescope/telescope.nvim"
+  },
   ["vim-helm"] = {
     loaded = true,
     path = "/home/hoax/.local/share/nvim/site/pack/packer/start/vim-helm",

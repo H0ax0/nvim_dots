@@ -91,6 +91,20 @@ return packer.startup(function(use)
 	use("arkav/lualine-lsp-progress")
 	--gitsigns
 	use("lewis6991/gitsigns.nvim")
+	--telescope xdxd
+	use({
+		"nvim-telescope/telescope.nvim",
+		requires = { { "nvim-lua/plenary.nvim" } },
+	})
+	--norg
+	use({ "nvim-neorg/neorg", requires = "nvim-lua/plenary.nvim" })
+	--notify
+	use("rcarriga/nvim-notify")
+	--comments
+	use("numToStr/Comment.nvim")
+	--fidget
+	use("j-hui/fidget.nvim")
+	--default packer bootstrap
 	if PACKER_BOOTSTRAP then
 		require("packer").sync()
 	end
