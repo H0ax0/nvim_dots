@@ -4,7 +4,11 @@ if not status_ok then
 	return
 end
 
-lsp_installer.setup()
+lsp_installer.setup({
+	ui = {
+		border = "rounded",
+	},
+})
 local servers_mod_ok, servers_mod = pcall(require, "nvim-lsp-installer.servers")
 if not servers_mod_ok then
 	vim.notify("lsp installer server submodule not found")
@@ -38,6 +42,12 @@ for _, server in pairs(servers) do
 	if server == "jsonls" then
 		local jsonls_opts = require("user.lsp.settings.jsonls")
 		opts = vim.tbl_deep_extend("force", jsonls_opts, opts)
+	end
+
+	if server == "jdtls" then
+		vim.env.JAVA_HOME = "/usr/lib/jvm/java-17-openjdk-amd64"
+		local jdtls_opts = require("user.lsp.settings.jdtls")
+		opts = vim.tbl_deep_extend("force", jdtls_opts, opts)
 	end
 
 	lspconfig[server].setup(opts)
