@@ -116,6 +116,23 @@ dap.adapters.cppdbg = {
 	command = installation_path .. "ccppr_vsc/extension/debugAdapters/bin/OpenDebugAD7",
 }
 
+dap.adapters.dart = {
+	type = "executable",
+	command = "node",
+	args = { installation_path .. "dart/Dart-Code/out/dist/debug.js", "flutter" },
+}
+dap.configurations.dart = {
+	{
+		type = "dart",
+		request = "launch",
+		name = "Launch flutter",
+		dartSdkPath = "/opt/flutter/bin/cache/dart-sdk/",
+		flutterSdkPath = "/opt/flutter",
+		program = "${workspaceFolder}/lib/main.dart",
+		cwd = "${workspaceFolder}",
+	},
+}
+
 dap.adapters.codelldb = function(on_adapter)
 	local tcp = vim.loop.new_tcp()
 	tcp:bind("127.0.0.1", 0)
