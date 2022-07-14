@@ -47,6 +47,11 @@ for _, server in pairs(servers) do
 		opts = vim.tbl_deep_extend("force", jsonls_opts, opts)
 	end
 
+	if server == "clangd" then
+		local clangd_opts = require("user.lsp.settings.clangd")
+		opts = vim.tbl_deep_extend("force", clangd_opts, opts)
+	end
+
 	if server == "yamlls" then
 		local yamlls_opts = require("user.lsp.settings.yamlls")
 		opts = vim.tbl_deep_extend("force", yamlls_opts, opts)
@@ -69,6 +74,14 @@ for _, server in pairs(servers) do
 		goto continue
 	end
 
+	if server == "dartls" then
+		local flutter_tools_status_ok, _ = pcall(require, "flutter-tools")
+		if not flutter_tools_status_ok then
+			vim.notify("pure dart config", "warn")
+			return
+		end
+		goto continue
+	end
 	lspconfig[server].setup(opts)
 	::continue::
 end

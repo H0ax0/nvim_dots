@@ -120,16 +120,16 @@ return packer.startup(function(use)
 	--todo
 	use("folke/todo-comments.nvim")
 	--copilot-cmp source
-	use("zbirenbaum/copilot-cmp")
-	use({
-		"zbirenbaum/copilot.lua",
-		event = { "VimEnter" },
-		config = function()
-			vim.defer_fn(function()
-				require("user.copilot")
-			end, 100)
-		end,
-	})
+	--use("zbirenbaum/copilot-cmp")
+	--use({
+	--	"zbirenbaum/copilot.lua",
+	--	event = { "VimEnter" },
+	--	config = function()
+	--		vim.defer_fn(function()
+	--			require("user.copilot")
+	--		end, 100)
+	--	end,
+	--})
 	--lsp signature -
 	use("ray-x/lsp_signature.nvim")
 	-- Rust
@@ -142,7 +142,8 @@ return packer.startup(function(use)
 	use("jose-elias-alvarez/typescript.nvim")
 	--renamer
 	use("filipdutescu/renamer.nvim")
-
+	--flutter
+	use({ "akinsho/flutter-tools.nvim", requires = "nvim-lua/plenary.nvim" })
 	if PACKER_BOOTSTRAP then
 		require("packer").sync()
 	end
