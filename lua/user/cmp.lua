@@ -10,7 +10,9 @@ if not snip_status_ok then
 	return
 end
 
-require("luasnip/loaders/from_vscode").lazy_load()
+require("luasnip/loaders/from_vscode").load({
+	paths = { vim.fn.stdpath("data") .. "/site/pack/packer/start/friendly-snippets/" },
+})
 
 local check_backspace = function()
 	local c = vim.api.nvim_win_get_cursor(0)
