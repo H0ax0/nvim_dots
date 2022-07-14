@@ -70,7 +70,7 @@ local gitsigns_cfg = {
 
 local gitsigns_ok, gitsigns = pcall(require, "gitsigns")
 if not gitsigns_ok then
-	vim.notify("Gitsigns not installed")
+	vim.notify("Gitsigns not installed", "warn")
 	return
 end
 

@@ -1,6 +1,6 @@
 local status_ok, _ = pcall(require, "lspconfig")
 if not status_ok then
-	vim.notify("no lspconfig!!")
+	vim.notify("no lspconfig!!", "error")
 	return
 end
 

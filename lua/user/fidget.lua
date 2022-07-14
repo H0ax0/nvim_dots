@@ -1,6 +1,6 @@
 local fidget_ok, fidget = pcall(require, "fidget")
 if not fidget_ok then
-	vim.notify("fidget not installed")
+	vim.notify("fidget not installed", "info")
 	return
 end
 fidget.setup({

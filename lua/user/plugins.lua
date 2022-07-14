@@ -17,7 +17,7 @@ end
 
 local status_ok, packer = pcall(require, "packer")
 if not status_ok then
-	vim.notify("packer not found!")
+	vim.notify("packer not found!", "error")
 	return
 end
 
@@ -61,6 +61,8 @@ return packer.startup(function(use)
 	use("nvim-lualine/lualine.nvim")
 	--treesitter
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
+	use("JoosepAlviste/nvim-ts-context-commentstring")
+	use("windwp/nvim-ts-autotag")
 	--autopairs
 	use("windwp/nvim-autopairs")
 	--nvim_tree
@@ -73,6 +75,7 @@ return packer.startup(function(use)
 	use("mfussenegger/nvim-dap")
 	use("rcarriga/nvim-dap-ui")
 	use("ravenxrz/DAPInstall.nvim")
+	use("theHamsta/nvim-dap-virtual-text")
 	--impatient
 	use("lewis6991/impatient.nvim")
 	--bufferline
@@ -96,6 +99,7 @@ return packer.startup(function(use)
 		"nvim-telescope/telescope.nvim",
 		requires = { { "nvim-lua/plenary.nvim" } },
 	})
+	use({ "nvim-telescope/telescope-media-files.nvim", requieres = { "nvim-telescope/telescope.nvim" } })
 	--norg
 	use({ "nvim-neorg/neorg", requires = "nvim-lua/plenary.nvim" })
 	--notify
@@ -105,6 +109,40 @@ return packer.startup(function(use)
 	--fidget
 	use("j-hui/fidget.nvim")
 	--default packer bootstrap
+	--dressing
+	use("stevearc/dressing.nvim")
+	--alpha
+	use("goolord/alpha-nvim")
+	--la bruja
+	use("folke/which-key.nvim")
+	--the elder scroll
+	use("karb94/neoscroll.nvim")
+	--todo
+	use("folke/todo-comments.nvim")
+	--copilot-cmp source
+	use("zbirenbaum/copilot-cmp")
+	use({
+		"zbirenbaum/copilot.lua",
+		event = { "VimEnter" },
+		config = function()
+			vim.defer_fn(function()
+				require("user.copilot")
+			end, 100)
+		end,
+	})
+	--lsp signature -
+	use("ray-x/lsp_signature.nvim")
+	-- Rust
+	use("simrat39/rust-tools.nvim")
+	use("Saecki/crates.nvim")
+	--code_actions
+	use({ "weilbith/nvim-code-action-menu", cmd = "CodeActionMenu" })
+	use({ "kosayoda/nvim-lightbulb", requires = "antoinemadec/FixCursorHold.nvim" })
+	-- Typescript TODO: set this up, also add keybinds to ftplugin
+	use("jose-elias-alvarez/typescript.nvim")
+	--renamer
+	use("filipdutescu/renamer.nvim")
+
 	if PACKER_BOOTSTRAP then
 		require("packer").sync()
 	end

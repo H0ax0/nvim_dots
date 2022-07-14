@@ -1,14 +1,15 @@
 local null_ls_status_ok, null_ls = pcall(require, "null-ls")
 if not null_ls_status_ok then
-	vim.notify("null-ls not found")
+	vim.notify("null-ls not found", "warn")
 	return
 end
 
 local formatter_install_ok, formatter_install = pcall(require, "format-installer")
 if not formatter_install_ok then
-	vim.notify("formatter_installer not installed")
+	vim.notify("formatter_installer not installed", "info")
 	return
 end
+
 formatter_install.setup({ installation_path = vim.fn.stdpath("data") .. "/formatters/" })
 
 local custom_configs = {

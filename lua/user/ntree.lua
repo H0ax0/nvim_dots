@@ -1,16 +1,8 @@
 local status_ok, nvim_tree = pcall(require, "nvim-tree")
 if not status_ok then
-	vim.notify("nvim-tree not installed")
+	vim.notify("nvim-tree not installed", "error")
 	return
 end
-
-local config_status_ok, nvim_tree_config = pcall(require, "nvim-tree.config")
-if not config_status_ok then
-	vim.notify("nvim-tree not configured")
-	return
-end
-
-local tree_cb = nvim_tree_config.nvim_tree_callback
 
 nvim_tree.setup({
 	disable_netrw = true,

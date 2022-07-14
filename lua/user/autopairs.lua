@@ -1,7 +1,7 @@
 -- Setup nvim-cmp.
 local status_ok, npairs = pcall(require, "nvim-autopairs")
 if not status_ok then
-	vim.notify("no autopairs plugin found")
+	vim.notify("no autopairs plugin found", "warn")
 	return
 end
 

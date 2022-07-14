@@ -1,6 +1,6 @@
 local status_ok, lsp_installer = pcall(require, "nvim-lsp-installer")
 if not status_ok then
-	vim.notify("lsp installer not found")
+	vim.notify("lsp installer not found", "warn")
 	return
 end
 
@@ -9,15 +9,18 @@ lsp_installer.setup({
 		border = "rounded",
 	},
 })
+
 local servers_mod_ok, servers_mod = pcall(require, "nvim-lsp-installer.servers")
 if not servers_mod_ok then
-	vim.notify("lsp installer server submodule not found")
+	vim.notify("lsp installer server submodule not found", "error")
 	return
 end
+
 local servers = servers_mod.get_installed_server_names()
 
 local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
 if not lspconfig_status_ok then
+	vim.notify("no lsp config", "error")
 	return
 end
 
@@ -44,11 +47,28 @@ for _, server in pairs(servers) do
 		opts = vim.tbl_deep_extend("force", jsonls_opts, opts)
 	end
 
+	if server == "yamlls" then
+		local yamlls_opts = require("user.lsp.settings.yamlls")
+		opts = vim.tbl_deep_extend("force", yamlls_opts, opts)
+	end
+
 	if server == "jdtls" then
-		vim.env.JAVA_HOME = "/usr/lib/jvm/java-17-openjdk-amd64"
-		local jdtls_opts = require("user.lsp.settings.jdtls")
-		opts = vim.tbl_deep_extend("force", jdtls_opts, opts)
+		goto continue
+	end
+
+	if server == "rust_analyzer" then
+		local rust_opts = require("user.lsp.settings.rust")
+
+		local rust_tools_status_ok, rust_tools = pcall(require, "rust-tools")
+		if not rust_tools_status_ok then
+			vim.notify("rust-tools not installed, using defalt lsp config", "info")
+			return
+		end
+
+		rust_tools.setup(rust_opts)
+		goto continue
 	end
 
 	lspconfig[server].setup(opts)
+	::continue::
 end
