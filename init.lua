@@ -1,5 +1,6 @@
 require("user.options")
 require("user.notify")
+require("user.dressing")
 
 require("user.autocommands")
 
@@ -27,7 +28,6 @@ require("user.fidget")
 require("user.alpha")
 --require("user.copilot")
 require("user.crates")
-require("user.dressing")
 require("user.illuminate")
 require("user.neoscroll")
 require("user.renamer")

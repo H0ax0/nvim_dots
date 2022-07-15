@@ -39,6 +39,7 @@ return packer.startup(function(use)
 	use("hrsh7th/cmp-path") -- path completions
 	use("hrsh7th/cmp-nvim-lsp") -- lsp completions
 	use("hrsh7th/cmp-emoji") -- emoji completions
+	use("hrsh7th/cmp-nvim-lua") --lua nvim api completions
 	use("saadparwaiz1/cmp_luasnip") -- snippet completions
 	use("rcarriga/cmp-dap") -- dap completions
 	use("RRethy/vim-illuminate") --illumination
@@ -144,6 +145,8 @@ return packer.startup(function(use)
 	use("filipdutescu/renamer.nvim")
 	--flutter
 	use({ "akinsho/flutter-tools.nvim", requires = "nvim-lua/plenary.nvim" })
+	--clippy
+	use({ "vappolinario/cmp-clippy", requires = "nvim-lua/plenary.nvim" })
 	if PACKER_BOOTSTRAP then
 		require("packer").sync()
 	end

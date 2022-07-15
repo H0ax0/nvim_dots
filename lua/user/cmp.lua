@@ -10,7 +10,7 @@ if not snip_status_ok then
 	return
 end
 
-require("luasnip/loaders/from_vscode").load({
+require("luasnip/loaders/from_vscode").lazy_load({
 	paths = { vim.fn.stdpath("data") .. "/site/pack/packer/start/friendly-snippets/" },
 })
 
@@ -19,11 +19,6 @@ local check_backspace = function()
 	local line, col = unpack(c)
 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
-
-vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
-vim.api.nvim_set_hl(0, "CmpItemKindTabnine", { fg = "#CA42F0" })
-vim.api.nvim_set_hl(0, "CmpItemKindEmoji", { fg = "#FDE030" })
-vim.api.nvim_set_hl(0, "CmpItemKindCrate", { fg = "#F64D00" })
 
 local lspkind_status_ok, lspkind = pcall(require, "lspkind")
 if not lspkind_status_ok then
@@ -36,6 +31,10 @@ local source_mapping = {
 	nvim_lsp = "[LSP]",
 	nvim_lua = "[Lua]",
 	cmp_tabnine = "[TN]",
+	cmp_clippy = "[CLIPPY]",
+	luasnip = "[SN]",
+	path = "[PH]",
+	emoji = "[EM]",
 }
 
 cmp.setup({
@@ -88,19 +87,27 @@ cmp.setup({
 		}),
 	},
 	formatting = {
+		fields = { "kind", "abbr", "menu" },
 		format = function(entry, vim_item)
 			vim_item.kind = lspkind.presets.default[vim_item.kind]
 			local menu = source_mapping[entry.source.name]
+
 			if entry.source.name == "cmp_tabnine" then
 				if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then
-					menu = entry.completion_item.data.detail .. " " .. menu
+					menu = entry.completion_item.data.detail .. menu
 				end
-				vim_item.kind = "ﮧ"
+				vim_item.kind = ""
 				vim_item.kind_hl_group = "CmpItemKindTabnine"
 			end
+
 			if entry.source.name == "copilot" then
 				vim_item.kind = ""
 				vim_item.kind_hl_group = "CmpItemKindCopilot"
+			end
+
+			if entry.source.name == "cmp_clippy" then
+				vim_item.kind = ""
+				vim_item.kind_hl_group = "CmpItemKindClippy"
 			end
 
 			if entry.source.name == "emoji" then
@@ -120,6 +127,14 @@ cmp.setup({
 		{ name = "crates", group_index = 1 },
 		{ name = "nvim_lsp", group_index = 2 },
 		{ name = "cmp_tabnine", group_index = 2 },
+		{
+			name = "cmp_clippy",
+			group_index = 2,
+			option = {
+				model = "flax-community/gpt-neo-125M-code-clippy-dedup",
+				key = "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",
+			},
+		},
 		{ name = "nvim_lua", group_index = 2 },
 		{ name = "copilot", group_index = 2 },
 		{ name = "luasnip", group_index = 2 },

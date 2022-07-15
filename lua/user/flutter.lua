@@ -16,11 +16,8 @@ flutter_tools.setup({
 		},
 	},
 	debugger = { -- integrate with nvim dap + install dart code debugger
-		enabled = false,
+		enabled = true,
 		run_via_dap = false, -- use dap instead of a plenary job to run flutter apps
-		register_configurations = function(paths)
-			require("dap").configurations.dart = {}
-		end,
 	},
 	fvm = false,
 	widget_guides = {
