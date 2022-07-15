@@ -37,4 +37,6 @@ require("user.whichkey")
 
 require("user.code_actions_menu")
 require("user.flutter")
+
+require("user.hover")
 --TODO: onehalf colors termilal setup

@@ -127,14 +127,14 @@ cmp.setup({
 		{ name = "crates", group_index = 1 },
 		{ name = "nvim_lsp", group_index = 2 },
 		{ name = "cmp_tabnine", group_index = 2 },
-		{
-			name = "cmp_clippy",
-			group_index = 2,
-			option = {
-				model = "flax-community/gpt-neo-125M-code-clippy-dedup",
-				key = "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",
-			},
-		},
+		--{
+		--	name = "cmp_clippy",
+		--	group_index = 2,
+		--	option = {
+		--		model = "flax-community/gpt-neo-125M-code-clippy-dedup",
+		--		key = "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",
+		--	},
+		--},
 		{ name = "nvim_lua", group_index = 2 },
 		{ name = "copilot", group_index = 2 },
 		{ name = "luasnip", group_index = 2 },

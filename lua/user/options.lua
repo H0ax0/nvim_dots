@@ -19,6 +19,7 @@ o.sm = false
 o.smarttab = true
 o.termguicolors = true
 o.mouse = "nv"
+--o.pumblend = 30 --floating windows transparency
 
 wo.number = true
 wo.wrap = false
