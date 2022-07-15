@@ -79,8 +79,6 @@ return packer.startup(function(use)
 	use("theHamsta/nvim-dap-virtual-text")
 	--impatient
 	use("lewis6991/impatient.nvim")
-	--hover
-	use("lewis6991/hover.nvim")
 	--bufferline
 	use("akinsho/bufferline.nvim")
 	-- Java
