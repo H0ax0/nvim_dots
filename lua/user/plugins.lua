@@ -113,6 +113,8 @@ return packer.startup(function(use)
 	use("stevearc/dressing.nvim")
 	--alpha
 	use("goolord/alpha-nvim")
+	--project
+	use("ahmedkhalf/project.nvim")
 	--la bruja
 	use("folke/which-key.nvim")
 	--the elder scroll

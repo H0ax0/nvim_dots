@@ -19,20 +19,14 @@ dashboard.section.buttons.val = {
 	dashboard.button("p", "  Find project", ":lua require('telescope').extensions.projects.projects()<CR>"),
 	dashboard.button("r", "  Recent files", ":Telescope oldfiles <CR>"),
 	dashboard.button("s", "  Find Session", ":silent Autosession search <CR>"),
-	dashboard.button("c", "  Config", ":e ~/.config/nvim/init.lua <CR>"),
+	dashboard.button("c", "  Config", ":cd ~/.config/nvim/<CR> :NvimTreeOpen <CR>"),
 	dashboard.button("u", "  Update", ":PackerSync<CR>"),
 	dashboard.button("q", "  Quit", ":qa<CR>"),
 }
-local function footer()
-	-- NOTE: requires the fortune-mod package to work
-	local handle = io.popen("fortune")
-	local fortune = handle:read("*a")
-	handle:close()
-	return fortune
-	--return "Fluffy"
-end
 
-dashboard.section.footer.val = footer()
+local fortune = require("alpha.fortune")
+dashboard.section.footer.val = fortune()
+
 dashboard.section.footer.opts.hl = "Type"
 dashboard.section.header.opts.hl = "Include"
 dashboard.section.buttons.opts.hl = "Keyword"
