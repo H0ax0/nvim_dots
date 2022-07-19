@@ -24,7 +24,8 @@ nvim_tree.setup({
 	},
 	open_on_tab = false,
 	hijack_cursor = true,
-	update_cwd = false,
+	update_cwd = true,
+	respect_buf_cwd = true,
 	diagnostics = {
 		enable = true,
 		show_on_dirs = false,

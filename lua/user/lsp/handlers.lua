@@ -83,6 +83,10 @@ M.on_attach = function(client, bufnr)
 		client.resolved_capabilities.document_formatting = false
 	end
 
+	if client.name == "rust_analyzer" then
+		client.resolved_capabilities.document_formatting = false
+	end
+
 	if client.name == "clangd" then
 		client.resolved_capabilities.document_formatting = false
 		client.resolved_capabilities.offsetEncoding = { "utf-8" }
