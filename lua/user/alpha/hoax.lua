@@ -47,7 +47,7 @@ local function mru()
 
 	local tbl = {}
 	for i, fn in ipairs(project.get_recent_projects()) do
-	if i >= 10 then
+	if i >= 8 then
 		goto projects_end
 	end
 		local short_fn = vim.fn.fnamemodify(fn, ":~")
@@ -78,16 +78,26 @@ end
 local default_header = {
 	type = "text",
 	val = {
-		[[                               __                ]],
-		[[  ___     ___    ___   __  __ /\_\    ___ ___    ]],
-		[[ / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\  ]],
-		[[/\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
-		[[\ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\]],
-		[[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
+		[[     *           MMM88&&&&&&&&		]],
+		[[                 MMM88&&&&&&&&		]],
+		[[                 'MMM88&&&&&&'		]],
+		[[                  'MMM8&&&'      *		]],
+		[[          |\___/|				]],
+		[[          )     (             .              ']],
+		[[         =\     /=				]],
+		[[           )===(       *			]],
+		[[          /     \				]],
+		[[          |     |				]],
+		[[         /       \				]],
+		[[         \       /				]],
+		[[  _/\_/\_/\__  _/_/\_/\_/\_/\_/\_/\_/\_/\_/\_ ]],
+		[[  |  |  |  |( (  |  |  |  |  |  |  |  |  |  |	]],
+		[[  |  |  |  | ) ) |  |  |  |  |  |  |  |  |  | ]],
+		[[  |  |  |  |(_(  |  |  |  |  |  |  |  |  |  | ]],
 	},
 	opts = {
 		position = "center",
-		hl = "Type",
+		hl = "AlphaCustomHlwhite",
 		-- wrap = "overflow";
 	},
 }
@@ -133,42 +143,14 @@ local buttons = {
 	position = "center",
 }
 
-local function fortune()
-	local handle = io.popen("fortune")
-	local fortune_text = "install fortune xdxd"
-	if handle ~= nil then
-		fortune_text = handle:read("*a")
-		handle:close()
-	end
-	local fortune_element = {
-		type = "text",
-		val = fortune_text,
-		opts = {
-			hl = "SpecialComment",
-			shrink_margin = false,
-			position = "center",
-		},
-	}
-
-	return fortune_element
-end
-
-local footer = {
-	type = "group",
-	val = { fortune() },
-	position = "center",
-}
-
 local config = {
 	layout = {
-		{ type = "padding", val = 2 },
+		{ type = "padding", val = 1 },
 		default_header,
-		{ type = "padding", val = 2 },
+		{ type = "padding", val = 1 },
 		buttons,
-		{ type = "padding", val = 2 },
+		{ type = "padding", val = 1 },
 		section_mru,
-		{ type = "padding", val = 2 },
-		footer,
 	},
 	opts = {
 		margin = 5,
