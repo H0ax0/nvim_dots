@@ -4,6 +4,8 @@ local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
 
 return {
 	tools = {
+		autoSetHints = true,
+		hover_with_actions = true,
 		on_initialized = function()
 			vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter", "CursorHold", "InsertLeave" }, {
 				pattern = { "*.rs" },
