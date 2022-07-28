@@ -142,6 +142,8 @@ return packer.startup(function(use)
 	use("filipdutescu/renamer.nvim")
 	--flutter
 	use({ "akinsho/flutter-tools.nvim", requires = "nvim-lua/plenary.nvim" })
+	--lua-dev
+	use("folke/lua-dev.nvim")
 	--clippy
 	use({ "vappolinario/cmp-clippy", requires = "nvim-lua/plenary.nvim" })
 	if PACKER_BOOTSTRAP then
