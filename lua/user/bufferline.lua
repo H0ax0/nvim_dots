@@ -1,5 +1,6 @@
 local status_ok, bufferline = pcall(require, "bufferline")
 if not status_ok then
+	vim.notify("bufferline not installed", "warn")
 	return
 end
 
@@ -7,7 +8,7 @@ local function is_ft(b, ft)
 	return vim.bo[b].filetype == ft
 end
 
-local function diagnostics_indicator(num, _, diagnostics, _)
+local function diagnostics_indicator(_, _, diagnostics, _)
 	local result = {}
 	local symbols = { error = "", warning = "", info = "" }
 	for name, count in pairs(diagnostics) do

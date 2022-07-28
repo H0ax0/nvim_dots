@@ -6,7 +6,7 @@ o.backspace = "indent,eol,start"
 o.fileencodings = "utf-8,latin"
 o.title = true
 o.backup = false
-o.hlsearch = true
+o.hlsearch = false
 o.showcmd = true
 o.cmdheight = 1
 o.laststatus = 2
@@ -19,10 +19,13 @@ o.sm = false
 o.smarttab = true
 o.termguicolors = true
 o.mouse = "nv"
+o.clipboard = "unnamedplus"
+--o.pumblend = 30 --floating windows transparency
 
 wo.number = true
 wo.wrap = false
 wo.cursorline = true
+wo.signcolumn = "yes:1"
 
 bo.autoindent = true
 bo.expandtab = true

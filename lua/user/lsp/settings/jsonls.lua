@@ -1,6 +1,6 @@
 local schemastore_ok, schemastore = pcall(require, "schemastore")
 if not schemastore_ok then
-	vim.notify("schemastore not installed")
+	vim.notify("schemastore not installed", "info")
 	return {}
 end
 return {

@@ -17,7 +17,7 @@ end
 
 local status_ok, packer = pcall(require, "packer")
 if not status_ok then
-	vim.notify("packer not found!")
+	vim.notify("packer not found!", "error")
 	return
 end
 
@@ -39,6 +39,7 @@ return packer.startup(function(use)
 	use("hrsh7th/cmp-path") -- path completions
 	use("hrsh7th/cmp-nvim-lsp") -- lsp completions
 	use("hrsh7th/cmp-emoji") -- emoji completions
+	use("hrsh7th/cmp-nvim-lua") --lua nvim api completions
 	use("saadparwaiz1/cmp_luasnip") -- snippet completions
 	use("rcarriga/cmp-dap") -- dap completions
 	use("RRethy/vim-illuminate") --illumination
@@ -50,21 +51,20 @@ return packer.startup(function(use)
 	use("rafamadriz/friendly-snippets") -- a bunch of snippets to use
 	-- LSP
 	use("neovim/nvim-lspconfig") -- enable LSP
-	use("williamboman/nvim-lsp-installer") -- simple to use language server installer
-	-- formatter
-	use("PlatyPew/format-installer.nvim")
-	use({
-		"jose-elias-alvarez/null-ls.nvim",
-		requires = { "PlatyPew/format-installer.nvim" },
-	})
+	use({ "jose-elias-alvarez/null-ls.nvim" })
 	--line
 	use("nvim-lualine/lualine.nvim")
 	--treesitter
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
+	use("JoosepAlviste/nvim-ts-context-commentstring")
+	use("windwp/nvim-ts-autotag")
 	--autopairs
 	use("windwp/nvim-autopairs")
 	--nvim_tree
 	use({ "kyazdani42/nvim-tree.lua", requires = { "kyazdani42/nvim-web-devicons" }, tag = "nightly" })
+	--mason
+	use({ "williamboman/mason.nvim" })
+	use("williamboman/mason-lspconfig.nvim")
 	--helm stuff
 	use("towolf/vim-helm")
 	--colorscheme
@@ -72,7 +72,7 @@ return packer.startup(function(use)
 	--dap
 	use("mfussenegger/nvim-dap")
 	use("rcarriga/nvim-dap-ui")
-	use("ravenxrz/DAPInstall.nvim")
+	use("theHamsta/nvim-dap-virtual-text")
 	--impatient
 	use("lewis6991/impatient.nvim")
 	--bufferline
@@ -91,6 +91,61 @@ return packer.startup(function(use)
 	use("arkav/lualine-lsp-progress")
 	--gitsigns
 	use("lewis6991/gitsigns.nvim")
+	--telescope xdxd
+	use({
+		"nvim-telescope/telescope.nvim",
+		requires = { { "nvim-lua/plenary.nvim" } },
+	})
+	use({ "nvim-telescope/telescope-media-files.nvim", requieres = { "nvim-telescope/telescope.nvim" } })
+	--norg
+	use({ "nvim-neorg/neorg", requires = "nvim-lua/plenary.nvim" })
+	--notify
+	use("rcarriga/nvim-notify")
+	--comments
+	use("numToStr/Comment.nvim")
+	--fidget
+	use("j-hui/fidget.nvim")
+	--dressing
+	use("stevearc/dressing.nvim")
+	--alpha
+	use("goolord/alpha-nvim")
+	--project
+	use("ahmedkhalf/project.nvim")
+	--la bruja
+	use("folke/which-key.nvim")
+	--the elder scroll
+	use("karb94/neoscroll.nvim")
+	--todo
+	use("folke/todo-comments.nvim")
+	--copilot-cmp source
+	--use("zbirenbaum/copilot-cmp")
+	--use({
+	--	"zbirenbaum/copilot.lua",
+	--	event = { "VimEnter" },
+	--	config = function()
+	--		vim.defer_fn(function()
+	--			require("user.copilot")
+	--		end, 100)
+	--	end,
+	--})
+	--lsp signature -
+	use("ray-x/lsp_signature.nvim")
+	-- Rust
+	use("simrat39/rust-tools.nvim")
+	use("Saecki/crates.nvim")
+	--code_actions
+	use({ "weilbith/nvim-code-action-menu", cmd = "CodeActionMenu" })
+	use({ "kosayoda/nvim-lightbulb", requires = "antoinemadec/FixCursorHold.nvim" })
+	-- Typescript TODO: set this up, also add keybinds to ftplugin
+	use("jose-elias-alvarez/typescript.nvim")
+	--renamer
+	use("filipdutescu/renamer.nvim")
+	--flutter
+	use({ "akinsho/flutter-tools.nvim", requires = "nvim-lua/plenary.nvim" })
+	--lua-dev
+	use("folke/lua-dev.nvim")
+	--clippy
+	use({ "vappolinario/cmp-clippy", requires = "nvim-lua/plenary.nvim" })
 	if PACKER_BOOTSTRAP then
 		require("packer").sync()
 	end
