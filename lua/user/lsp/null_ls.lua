@@ -3,14 +3,11 @@ if not null_ls_status_ok then
 	vim.notify("null-ls not found", "warn")
 	return
 end
-
-local formatter_install_ok, formatter_install = pcall(require, "format-installer")
-if not formatter_install_ok then
-	vim.notify("formatter_installer not installed", "info")
+local mason_registry_ok, mason_registry = pcall(require, "mason-registry")
+if not mason_registry_ok then
+	vim.notify("mason not installed", "warn")
 	return
 end
-
-formatter_install.setup({ installation_path = vim.fn.stdpath("data") .. "/formatters/" })
 
 local custom_configs = {
 	prettier = {
@@ -25,34 +22,31 @@ local custom_configs = {
 		extra_args = { "--fast" },
 	},
 }
-
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local sources = {}
 
-for _, formatter in ipairs(formatter_install.get_installed_formatters()) do
-	local config = { command = formatter.cmd }
-	if custom_configs[formatter.name] ~= nil then
-		config.extra_args = custom_configs[formatter.name].extra_args
+for _, tool in ipairs(mason_registry.get_installed_package_names()) do
+	local config = { command = tool }
+	if custom_configs[tool] ~= nil then
+		config.extra_args = custom_configs[tool].extra_args
 	end
 	for fmt, _ in pairs(require("null-ls.builtins._meta.formatting")) do
-		if fmt == formatter.name then
-			table.insert(sources, null_ls.builtins.formatting[formatter.name].with(config))
+		if fmt == tool then
+			table.insert(sources, null_ls.builtins.formatting[tool].with(config))
 		end
 	end
 	for diag, _ in pairs(require("null-ls.builtins._meta.diagnostics")) do
-		if diag == formatter.name then
-			table.insert(sources, null_ls.builtins.diagnostics[formatter.name].with(config))
+		if diag == tool then
+			table.insert(sources, null_ls.builtins.diagnostics[tool].with(config))
 		end
 	end
 	for ca, _ in pairs(require("null-ls.builtins._meta.code_actions")) do
-		if ca == formatter.name then
-			table.insert(sources, null_ls.builtins.code_actions[formatter.name].with(config))
+		if ca == tool then
+			table.insert(sources, null_ls.builtins.code_actions[tool].with(config))
 		end
 	end
 end
-
 table.insert(sources, null_ls.builtins.code_actions.gitsigns)
-
 null_ls.setup({
 	debug = false,
 	sources = sources,

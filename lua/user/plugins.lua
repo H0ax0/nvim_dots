@@ -51,13 +51,7 @@ return packer.startup(function(use)
 	use("rafamadriz/friendly-snippets") -- a bunch of snippets to use
 	-- LSP
 	use("neovim/nvim-lspconfig") -- enable LSP
-	use("williamboman/nvim-lsp-installer") -- simple to use language server installer
-	-- formatter
-	use("PlatyPew/format-installer.nvim")
-	use({
-		"jose-elias-alvarez/null-ls.nvim",
-		requires = { "PlatyPew/format-installer.nvim" },
-	})
+	use({ "jose-elias-alvarez/null-ls.nvim" })
 	--line
 	use("nvim-lualine/lualine.nvim")
 	--treesitter
@@ -68,6 +62,9 @@ return packer.startup(function(use)
 	use("windwp/nvim-autopairs")
 	--nvim_tree
 	use({ "kyazdani42/nvim-tree.lua", requires = { "kyazdani42/nvim-web-devicons" }, tag = "nightly" })
+	--mason
+	use({ "williamboman/mason.nvim" })
+	use("williamboman/mason-lspconfig.nvim")
 	--helm stuff
 	use("towolf/vim-helm")
 	--colorscheme
@@ -75,7 +72,6 @@ return packer.startup(function(use)
 	--dap
 	use("mfussenegger/nvim-dap")
 	use("rcarriga/nvim-dap-ui")
-	use("ravenxrz/DAPInstall.nvim")
 	use("theHamsta/nvim-dap-virtual-text")
 	--impatient
 	use("lewis6991/impatient.nvim")

@@ -1,22 +1,24 @@
-local status_ok, lsp_installer = pcall(require, "nvim-lsp-installer")
-if not status_ok then
+local mason_ok, mason = pcall(require, "mason")
+if not mason_ok then
 	vim.notify("lsp installer not found", "warn")
 	return
 end
 
-lsp_installer.setup({
+local mason_lspconfig_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
+if not mason_lspconfig_ok then
+	vim.notify("mason lspconfig not found", "warn")
+	return
+end
+
+mason.setup({
 	ui = {
 		border = "rounded",
 	},
 })
 
-local servers_mod_ok, servers_mod = pcall(require, "nvim-lsp-installer.servers")
-if not servers_mod_ok then
-	vim.notify("lsp installer server submodule not found", "error")
-	return
-end
+mason_lspconfig.setup()
 
-local servers = servers_mod.get_installed_server_names()
+local servers = mason_lspconfig.get_installed_servers()
 
 local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
 if not lspconfig_status_ok then

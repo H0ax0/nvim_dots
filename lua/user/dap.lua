@@ -10,14 +10,11 @@ if not dap_ui_status_ok then
 	return
 end
 
-local dap_install_status_ok, dap_install = pcall(require, "dap-install")
-if not dap_install_status_ok then
-	vim.notify("no dap installer", "info")
+local mason_registry_ok, mason_registry = pcall(require, "dapui")
+if not mason_registry_ok then
+	vim.notify("mason registry plugin not installed", "warn")
 	return
 end
-
-dap_install.setup({})
-dap_install.config("python", {})
 
 vim.fn.sign_define("DapBreakpoint", {
 	text = "",
@@ -96,30 +93,109 @@ dap.listeners.before.event_exited["dapui_config"] = function()
 	dapui.close()
 end
 
-local installation_path = vim.fn.stdpath("data") .. "/dapinstall/"
+local adapter_map = {
+	python = {
+		truename = "",
+		special = false,
+		path_extra = "/venv/bin/python",
+		args = { "-m", "debugpy.adapter" },
+	},
+	go = {
+		truename = "go-debug-adapter",
+		spacial = false,
+		path_extra = "/go-debug-adapter",
+	},
+	cppdbg = {
+		truename = "cpptools",
+		special = false,
+		path_extra = "/extension/debugAdapters/bin/OpenDebugAD7",
+	},
+	codelldb = {
+		truename = "",
+		special = true,
+		special_fun = function(on_adapter)
+			local tcp = vim.loop.new_tcp()
+			tcp:bind("127.0.0.1", 0)
+			local port = tcp:getsockname().port
+			tcp:shutdown()
+			tcp:close()
 
-dap.adapters.python = {
-	type = "executable",
-	command = installation_path .. "python/bin/python",
-	args = { "-m", "debugpy.adapter" },
+			local stdout = vim.loop.new_pipe(false)
+			local stderr = vim.loop.new_pipe(false)
+			local opts = {
+				stdio = { nil, stdout, stderr },
+				args = { "--port", tostring(port) },
+			}
+			local handle
+			local pid_or_err
+			local exec_path = ""
+			local ins_ok, mason_lldb_pkg = pcall(mason_registry.get_package, "codelldb")
+			if not ins_ok then
+				vim.notify("DAP adapter codelldb not installed", "info")
+			else
+				exec_path = mason_lldb_pkg:get_install_path()
+			end
+			handle, pid_or_err = vim.loop.spawn(exec_path .. "/extension/adapter/codelldb", opts, function(code)
+				stdout:close()
+				stderr:close()
+				handle:close()
+				if code ~= 0 then
+					print("codelldb exited with code", code)
+				end
+			end)
+			if not handle then
+				vim.notify("Error running codelldb: " .. tostring(pid_or_err), "error")
+				stdout:close()
+				stderr:close()
+				return
+			end
+			vim.notify("codelldb started. pid=" .. pid_or_err, "info")
+			stderr:read_start(function(err, chunk)
+				assert(not err, err)
+				if chunk then
+					vim.schedule(function()
+						require("dap.repl").append(chunk)
+					end)
+				end
+			end)
+			local adapter = {
+				type = "server",
+				host = "127.0.0.1",
+				port = port,
+			}
+			-- 💀
+			-- Wait for codelldb to get ready and start listening before telling nvim-dap to connect
+			-- If you get connect errors, try to increase 500 to a higher value, or check the stderr (Open the REPL)
+			vim.defer_fn(function()
+				on_adapter(adapter)
+			end, 500)
+		end,
+	},
 }
 
-dap.adapters.go = {
-	type = "executable",
-	command = "node",
-	args = { installation_path .. "go/vscode-go/dist/debugAdapter.js" },
-}
-
-dap.adapters.cppdbg = {
-	id = "cppdbg",
-	type = "executable",
-	command = installation_path .. "ccppr_vsc/extension/debugAdapters/bin/OpenDebugAD7",
-}
+for _, adapter in ipairs(adapter_map) do
+	local current_adapter = {}
+	if not adapter.special then
+		local adapter_registed_ok, adapter_registed = pcall(mason_registry.get_package, adapter.truename)
+		if not adapter_registed_ok then
+			vim.notify("DAP adapter " .. adapter.truename .. " not installed", "info")
+		else
+			current_adapter = {
+				type = "executable",
+				command = adapter_registed:get_install_path() .. adapter.path_extra,
+				args = adapter.args,
+			}
+		end
+	else
+		current_adapter = adapter.special_fun
+	end
+	dap.adapters[adapter] = current_adapter
+end
 
 dap.adapters.dart = {
 	type = "executable",
 	command = "node",
-	args = { installation_path .. "dart/Dart-Code/out/dist/debug.js", "flutter" },
+	args = { "/home/hoax/.local/share/nvim/dapinstall/dart/Dart-Code/out/dist/debug.js", "flutter" },
 }
 dap.configurations.dart = {
 	{
@@ -132,54 +208,3 @@ dap.configurations.dart = {
 		cwd = "${workspaceFolder}",
 	},
 }
-
-dap.adapters.codelldb = function(on_adapter)
-	local tcp = vim.loop.new_tcp()
-	tcp:bind("127.0.0.1", 0)
-	local port = tcp:getsockname().port
-	tcp:shutdown()
-	tcp:close()
-
-	local stdout = vim.loop.new_pipe(false)
-	local stderr = vim.loop.new_pipe(false)
-	local opts = {
-		stdio = { nil, stdout, stderr },
-		args = { "--port", tostring(port) },
-	}
-	local handle
-	local pid_or_err
-	handle, pid_or_err = vim.loop.spawn(installation_path .. "codelldb/extension/adapter/codelldb", opts, function(code)
-		stdout:close()
-		stderr:close()
-		handle:close()
-		if code ~= 0 then
-			print("codelldb exited with code", code)
-		end
-	end)
-	if not handle then
-		vim.notify("Error running codelldb: " .. tostring(pid_or_err), "error")
-		stdout:close()
-		stderr:close()
-		return
-	end
-	vim.notify("codelldb started. pid=" .. pid_or_err, "info")
-	stderr:read_start(function(err, chunk)
-		assert(not err, err)
-		if chunk then
-			vim.schedule(function()
-				require("dap.repl").append(chunk)
-			end)
-		end
-	end)
-	local adapter = {
-		type = "server",
-		host = "127.0.0.1",
-		port = port,
-	}
-	-- 💀
-	-- Wait for codelldb to get ready and start listening before telling nvim-dap to connect
-	-- If you get connect errors, try to increase 500 to a higher value, or check the stderr (Open the REPL)
-	vim.defer_fn(function()
-		on_adapter(adapter)
-	end, 500)
-end
